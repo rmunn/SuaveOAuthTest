@@ -30,7 +30,7 @@ Target "Build" (fun _ ->
 Target "Deploy" (fun _ ->
     !! (buildDir + "/**/*.*")
     -- "*.zip"
-    |> Zip buildDir (deployDir + "ApplicationName." + version + ".zip")
+    |> Zip buildDir (deployDir + "TryOAuth." + version + ".zip")
 )
 
 // Build order
