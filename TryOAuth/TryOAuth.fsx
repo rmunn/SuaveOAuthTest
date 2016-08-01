@@ -3,6 +3,7 @@
 open Suave                 // always open suave
 open Suave.Successful      // for OK-result
 open Suave.Web             // for config
+open Suave.Html
 
 type OAuthSecret = {
     ClientId: string
@@ -14,4 +15,16 @@ let githubOauth = {
     ClientSecret = "GITHUB_CLIENT_SECRET"
 }
 
-startWebServer defaultConfig (sprintf "Github client ID is %s" githubOauth.ClientId |> OK) // Check that it gets compiled into the .exe properly
+let basePage =
+    html [
+        head [
+            metaAttr ["charset", "utf-8"]
+            title "A demo of OAuth"
+        ]
+        body [
+            tag "h1" [] (text "How's that?")
+            p (text "Lorem ipsum and all that nonsense")
+        ]
+    ]
+
+startWebServer defaultConfig (basePage |> renderHtmlDocument |> OK)

@@ -9,3 +9,11 @@ All times are Chiang Mai time (UTC+7) unless otherwise specified.
 18:34 - set up build to replace secrets during build process
           - This way, secrets are never checked in to GitHub.
 18:35 - stop work for today. 
+
+2016-08-02 (Tuesday):
+
+06:35 - start working
+06:39 - added Suave.Experimental, pulling in .Net Core
+          - This will take a while
+06:45 - done pulling in .Net Core
+06:56 - first HTML template built in code 
