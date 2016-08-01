@@ -7,6 +7,8 @@ open Fake
 let buildDir  = "./build/"
 let deployDir = "./deploy/"
 
+// Encodings
+let utf8 = System.Text.UTF8Encoding(false)
 
 // Filesets
 let appReferences  =
@@ -25,18 +27,31 @@ let readSecrets servicename =
     let clientSecret = ReadLine (secretsDir </> clientSecretFname)
     (clientId, clientSecret)
 
-let tellSecrets files =
+let replaceSecrets files =
     let githubId, githubSecret = readSecrets "github"
-    printfn "Github client ID: %s" githubId 
+    files |> RegexReplaceInFilesWithEncoding "GITHUB_CLIENT_ID" githubId utf8
+    files |> RegexReplaceInFilesWithEncoding "GITHUB_CLIENT_SECRET" githubSecret utf8
+
+let unReplaceSecrets files =
+    let githubId, githubSecret = readSecrets "github"
+    files |> RegexReplaceInFilesWithEncoding githubId "GITHUB_CLIENT_ID" utf8
+    files |> RegexReplaceInFilesWithEncoding githubSecret "GITHUB_CLIENT_SECRET" utf8
 
 // Targets
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; deployDir]
 )
 
-Target "Tattle" (fun _ ->
-    !! "/**/*.*"
-        |> tellSecrets
+Target "ReplaceSecrets" (fun _ ->
+    // TODO: Change glob below once I move secrets into their own .fsx file
+    !! "/**/TryOAuth.fsx"
+        |> replaceSecrets
+)
+
+Target "UnReplaceSecrets" (fun _ ->
+    // TODO: Change glob below once I move secrets into their own .fsx file
+    !! "/**/TryOAuth.fsx"
+        |> unReplaceSecrets
 )
 
 Target "Build" (fun _ ->
@@ -53,9 +68,10 @@ Target "Deploy" (fun _ ->
 
 // Build order
 "Clean"
-  ==> "Tattle"
+  ==> "ReplaceSecrets"
   ==> "Build"
+  ==> "UnReplaceSecrets"
   ==> "Deploy"
 
 // start build
-RunTargetOrDefault "Build"
+RunTargetOrDefault "UnReplaceSecrets"
