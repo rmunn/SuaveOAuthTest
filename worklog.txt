@@ -1,3 +1,4 @@
 All times are Chiang Mai time (UTC+7) unless otherwise specified.
 
 17:32 - start working, git init
+17:36 - new project in Ionide ("suave" template)
