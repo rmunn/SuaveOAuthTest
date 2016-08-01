@@ -2,3 +2,5 @@ All times are Chiang Mai time (UTC+7) unless otherwise specified.
 
 17:32 - start working, git init
 17:36 - new project in Ionide ("suave" template)
+17:45 - first run, got "Hello World!" from http://127.0.0.1:8083/
+17:58 - registered for OAuth client secret at GitHub
