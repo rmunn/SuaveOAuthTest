@@ -193,3 +193,4 @@ docs/tools/FSharp.Formatting.svclog
 
 # OAuth client secrets that should never be committed
 secret.txt
+secrets/
